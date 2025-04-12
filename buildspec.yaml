@@ -6,7 +6,7 @@ phases:
       - java -version
       - mvn -version
       - echo "Starting Maven Build..."
-      - mvn clean install
+      - mvn clean install -x
       - echo "Verifying JAR file exists..."
       - ls -lah target
       - if [ ! -f target/aim.jar ]; then echo "JAR file not found! Exiting."; exit 1; fi
