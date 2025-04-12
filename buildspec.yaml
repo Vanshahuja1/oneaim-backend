@@ -12,7 +12,7 @@ phases:
       - if [ ! -f target/aim.jar ]; then echo "JAR file not found! Exiting."; exit 1; fi
       - echo Logging in to Amazon ECR...
       - aws --version
-      - REPOSITORY_URI=180294199549.dkr.ecr.ap-south-1.amazonaws.com/aim
+      - REPOSITORY_URI=180294199549.dkr.ecr.ap-south-1.amazonaws.com/aim_repo
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin $REPOSITORY_URI
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
@@ -29,7 +29,7 @@ phases:
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
-      - DOCKER_CONTAINER_NAME=aim
+      - DOCKER_CONTAINER_NAME=aim_repo
       - printf '[{"name":"%s","imageUri":"%s"}]' $DOCKER_CONTAINER_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
       - echo printing imagedefinitions.json
       - cat imagedefinitions.json
